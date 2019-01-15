@@ -50,15 +50,14 @@ int * MergeSort(int arr[], int len) {
   // Find the half way index of the array
   int half;
   int half2;
+
   if (len%2 == 1) {
     half = len/2+1;
-    half2 = half-1;
-    printf("halves: %d %d\n",half, half2 );
+    half2 = len/2;
 
   } else {
     half = len/2;
     half2 = half;
-    printf("halves even: %d %d\n",half, half2 );
   }
 
   //allocate two arrays of half the sze of arr.
@@ -66,7 +65,7 @@ int * MergeSort(int arr[], int len) {
   int * second_half = malloc(half2 * sizeof(int));
 
   memcpy(first_half, arr, half * sizeof(int));
-  memcpy(second_half, arr + half2, half2 * sizeof(int));
+  memcpy(second_half, arr + half, half2 * sizeof(int));
 
   // print_array(first_half, half);
   // print_array(second_half, half);
@@ -84,12 +83,17 @@ int * MergeSort(int arr[], int len) {
   int result_index = 0;
   while(first_index < half && second_index < half2) {
     if (first_half[first_index] < second_half[second_index]) {
+        printf("1 result %d, fist %d\n\n", result[result_index], first_half[first_index]);
       result[result_index++] = first_half[first_index++];
-    } else if (first_half[first_index] > second_half[second_index++]) {
-      result[result_index] = second_half[second_index++];
+
+    } else if (first_half[first_index] > second_half[second_index]) {
+      printf("2 result %d, secod %d\n\n", result[result_index], second_half[second_index]);
+      result[result_index++] = second_half[second_index++];
     } else {
-      result[result_index] = first_half[first_index++];
-      result[++result_index] = second_half[second_index++];
+      printf("3 result %d, fist %d\n", result[result_index], first_half[first_index]);
+      printf("result %d, secod %d\n\n", result[result_index+1], second_half[second_index]);
+      result[result_index++] = first_half[first_index++];
+      result[result_index] = second_half[second_index++];
     }
 
   }
