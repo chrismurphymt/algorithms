@@ -25,7 +25,6 @@ void print_array(int arp[], int n) {
 
 int * SelectionSort(int  arr[], int len) {
   // int arr[NUM_OF_ELEMS];
-
   int * p = malloc(len * sizeof(int));
   memcpy(p, arr, len * sizeof(int));
   for (int i = 0; i<len; i++) {
@@ -49,29 +48,57 @@ int * MergeSort(int arr[], int len) {
     return arr;
   }
   // Find the half way index of the array
-  int half = len/2+1;
+  int half;
+  int half2;
+  if (len%2 == 1) {
+    half = len/2+1;
+    half2 = half-1;
+    printf("halves: %d %d\n",half, half2 );
+
+  } else {
+    half = len/2;
+    half2 = half;
+    printf("halves even: %d %d\n",half, half2 );
+  }
 
   //allocate two arrays of half the sze of arr.
   int * first_half = malloc(half * sizeof(int));
-  int * second_half = malloc(half * sizeof(int));
+  int * second_half = malloc(half2 * sizeof(int));
 
   memcpy(first_half, arr, half * sizeof(int));
-  memcpy(second_half, arr + half, half * sizeof(int));
+  memcpy(second_half, arr + half2, half2 * sizeof(int));
 
-  int * p = malloc(len * sizeof(int));
-  printf("arr:  address %p\n", (void *)arr);
-  printf("fh:   address %p\n", (void *)first_half);
-  printf("fh*2: address %p\n", (void *)(first_half+half));
-  printf("sh:   address %p\n", (void *)second_half);
+  // print_array(first_half, half);
+  // print_array(second_half, half);
 
-  print_array(first_half, half);
-  print_array(second_half, half);
-
-  int *firstHalf = arr;
-  int *secondHalf = arr + half;
+  first_half = MergeSort(first_half, half);
+  second_half = MergeSort(second_half, half2);
 
 
-  memcpy(p, arr, len * sizeof(int));
+  int * result = malloc(len * sizeof(int));
 
-  return p;
+  //memcpy(result, arr, len * sizeof(int));
+
+  int first_index = 0;
+  int second_index = 0;
+  int result_index = 0;
+  while(first_index < half && second_index < half2) {
+    if (first_half[first_index] < second_half[second_index]) {
+      result[result_index++] = first_half[first_index++];
+    } else if (first_half[first_index] > second_half[second_index++]) {
+      result[result_index] = second_half[second_index++];
+    } else {
+      result[result_index] = first_half[first_index++];
+      result[++result_index] = second_half[second_index++];
+    }
+
+  }
+  while (first_index < half) {
+    result[result_index++] = first_half[first_index++];
+  }
+  while (second_index < half2) {
+    result[result_index++] = second_half[second_index++];
+  }
+
+  return result;
 }

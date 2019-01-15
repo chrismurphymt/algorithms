@@ -5,7 +5,7 @@
 int main()
 {
   //Inital unsorted list creation
-  int n = 13;
+  int n = 12;
   int * arr = malloc(n * sizeof(int));
   for (int i=0;i<n;i++) {
     arr[i] = rand() % 20;
