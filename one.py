@@ -79,7 +79,6 @@ def merge_sort(arr):
             # both values are equal:
             result[i_result] = first_half[i_first]
             result[i_result + 1] = second_half[i_second]
-
             i_first += 1
             i_second += 1
             i_result += 1
