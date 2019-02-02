@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <funcs.h>
 #include <string.h>
+#include <time.h>
 #include <stdlib.h>
 #include <math.h>
 
@@ -20,7 +21,6 @@ void print_array(int arp[], int n) {
   printf("\n");
 
   return;
-
 }
 
 int * SelectionSort(int  arr[], int len) {
@@ -67,35 +67,24 @@ int * MergeSort(int arr[], int len) {
   memcpy(first_half, arr, half * sizeof(int));
   memcpy(second_half, arr + half, half2 * sizeof(int));
 
-  // print_array(first_half, half);
-  // print_array(second_half, half);
-
   first_half = MergeSort(first_half, half);
   second_half = MergeSort(second_half, half2);
 
 
   int * result = malloc(len * sizeof(int));
 
-  //memcpy(result, arr, len * sizeof(int));
-
   int first_index = 0;
   int second_index = 0;
   int result_index = 0;
   while(first_index < half && second_index < half2) {
     if (first_half[first_index] < second_half[second_index]) {
-        printf("1 result %d, fist %d\n\n", result[result_index], first_half[first_index]);
       result[result_index++] = first_half[first_index++];
-
     } else if (first_half[first_index] > second_half[second_index]) {
-      printf("2 result %d, secod %d\n\n", result[result_index], second_half[second_index]);
       result[result_index++] = second_half[second_index++];
     } else {
-      printf("3 result %d, fist %d\n", result[result_index], first_half[first_index]);
-      printf("result %d, secod %d\n\n", result[result_index+1], second_half[second_index]);
       result[result_index++] = first_half[first_index++];
       result[result_index] = second_half[second_index++];
     }
-
   }
   while (first_index < half) {
     result[result_index++] = first_half[first_index++];
@@ -105,4 +94,39 @@ int * MergeSort(int arr[], int len) {
   }
 
   return result;
+}
+
+void SwapIndices(int  arr[], int i, int j) {
+  int temp = arr[i];
+  arr[i] = arr[j];
+  arr[j] = temp;
+}
+
+void QuickSort(int *arr[], int startIndex, int endIndex) {
+  int n = endIndex - startIndex + 1;
+  if (n <= 1) return;
+  srand(time(NULL));   // Initialization, should only be called once.
+  int pivotIndex = rand()%(endIndex-1);
+  printf("index: %d\n", pivotIndex);
+  //print_array(*arr, endIndex+1);
+  int pivot = *arr[pivotIndex];
+  printf("%s %d\n", "type", pivot);
+  int valsLeftPivot = 0;
+  for(int i = startIndex; i<endIndex; i++) {
+    if(*arr[i] < pivot) {
+      valsLeftPivot++;
+    }
+  }
+  printf("%s\n", "whaa");
+  SwapIndices(*arr, pivotIndex, startIndex+valsLeftPivot);
+  pivotIndex = startIndex+valsLeftPivot;
+  valsLeftPivot=0;
+  for(int i = startIndex; i < endIndex; i++) {
+    if(*arr[i] < pivot) {
+      SwapIndices(*arr, i, startIndex+valsLeftPivot);
+      valsLeftPivot++;
+    }
+  }
+  QuickSort(arr, startIndex, startIndex+valsLeftPivot);
+  QuickSort(arr, startIndex+valsLeftPivot+1, endIndex);
 }

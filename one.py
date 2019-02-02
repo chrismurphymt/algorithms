@@ -96,4 +96,41 @@ def merge_sort(arr):
     return result
 
 
-print(merge_sort([10, 1, 9, 5, 7, 8, 2, 4]))
+#print(merge_sort([10, 1, 9, 5, 7, 8, 2, 4]))
+
+def swap_indices(arr, i, j):
+    temp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = temp
+
+def quicksort(arr, start_ind, end_ind):
+    n=end_ind - start_ind + 1
+    # any list of length 1 is already sorted:
+    if n <= 1:
+        return
+    # choose a random pivot element in {start_ind, ..., end_ind}
+    pivot_index = np.random.randint(start_ind, end_ind+1)
+    pivot = arr[pivot_index]
+    # count values < pivot:
+    vals_lt_pivot=0
+    for i in range(start_ind, end_ind+1):
+        if arr[i] < pivot:
+            vals_lt_pivot += 1
+    # place pivot at arr[vals_lt_pivot], since vals_lt_pivot will need to come before it
+    swap_indices(arr, pivot_index, start_ind+vals_lt_pivot)
+    # the pivot index has been moved to index vals_lt_pivot
+    pivot_index = start_ind+vals_lt_pivot
+    # move all values < pivot to indices < pivot_index:
+    vals_lt_pivot=0
+    for i in range(start_ind, end_ind+1):
+        if arr[i] < pivot:
+            swap_indices(arr, i, start_ind+vals_lt_pivot)
+            vals_lt_pivot += 1
+    # pivoting is complete. recurse:
+    quicksort(arr, start_ind, start_ind+vals_lt_pivot)
+    quicksort(arr, start_ind+vals_lt_pivot+1, end_ind)
+
+
+arr = [10,1,9,5,7,8,2,4]
+quicksort(arr, 0, len(arr)-1)
+print(arr)
