@@ -13,34 +13,25 @@ print(index)
 def probability_of_comparison(x,x_sort,i,j):
     r_i = x_sort.index(x[i])
     r_j = x_sort.index(x[j])
-    print("i_sort: ", r_i, " j_sort: ", r_j)
-    prob = 0.0
-    count = 0
+    ans = 2.0/(abs(r_j-r_i)+1)
+    return ans
 
-    if r_i >= r_j:
-        temp = r_i
-        r_i = r_j
-        r_j = temp
-        print("i_sort: ", r_i, " j_sort: ", r_j)
-
-    for ii in range(r_i,r_j):
-
-        for jj in range(ii+1, r_j):
-            ans = abs(jj-ii)+1
-            print("ii: ", ii, " jj: ", jj, " ans: ", ans)
-
-            prob += 2/ans
-            count += 1
-
-
-    print("prob: ", (prob/count))
-
-
-
-probability_of_comparison(x,x_sort,i,j)
-
+print("prob of compariston: " ,probability_of_comparison(x,x_sort,i,j))
 
 #3 2
+def total_expected_comparisons(x,x_sort):
+
+    prob = 0.0
+    for ii in range(len(x)):
+        for jj in range(ii+1, len(x)):
+
+            prob += probability_of_comparison(x,x_sort,ii,jj)
+
+    return prob
+
+print("expected total executions ", total_expected_comparisons(x,x_sort))
+
+
 
 #4.
 def compute_expected_comarisons(i,j):
