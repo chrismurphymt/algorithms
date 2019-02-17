@@ -1,5 +1,6 @@
 
 import numpy
+import time
 # Fibonacci characteristic matrix:
 A=numpy.matrix([[1,1],[1,0]])
 # Eigenvalues
@@ -33,9 +34,22 @@ class Memoized:
 
 
 @Memoized
+def fib_memoized(n):
+    if n==0 or n==1:
+        return 1
+    return fib(n-1) + fib(n-2)
+
 def fib(n):
     if n==0 or n==1:
         return 1
     return fib(n-1) + fib(n-2)
 
-print("im those ", fib(10))
+numFib = 20
+t1 = time.time()
+print("im those ", fib(numFib))
+t2 = time.time()
+print("taken: ", t2-t1)
+t2=time.time()
+print("im moemo ", fib_memoized(numFib))
+t1 = time.time()
+print("taken memo: ", t1-t2)
