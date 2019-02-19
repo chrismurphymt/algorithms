@@ -1,23 +1,6 @@
 
 import numpy
 import time
-# Fibonacci characteristic matrix:
-A=numpy.matrix([[1,1],[1,0]])
-# Eigenvalues
-
-lambda1, lambda2 = numpy.linalg.eigvals(A)
-# Solve for coefficeints d1,d2:
-# z(t) = d1*lambda1**(t-1) + d2*lambda2**(t-1):
-# <--> M*[[d1],[d2]] = [1,1]
-M=numpy.matrix([[lambda1**-1,lambda2**-1],
-                [lambda1**0,lambda2**0]])
-d = numpy.linalg.solve(M, [[1],[1]])
-d1,d2 = d.T[0]
-def z(t):
-    return d1*lambda1**(t-1) + d2*lambda2**(t-1)
-
-for t in range(10):
-    print(z(t))
 
 
 # class used as function "decorator":
@@ -33,18 +16,6 @@ class Memoized:
         # the result must now be in the cache:
         return self._cache[args]
 
-
-@Memoized
-def fib_memoized(n):
-    if n==0 or n==1:
-        return 1
-    return fib(n-1) + fib(n-2)
-
-def fib(n):
-    if n==0 or n==1:
-        return 1
-    return fib(n-1) + fib(n-2)
-
 @Memoized
 def g(a,b):
     if a<=0 or b<=0:
@@ -57,31 +28,35 @@ def z(t):
         return 1
     return 1.2*z(t-1)+0.2*z(t-2)+z(t-3)
 
-print("zzzz(t")
+missoula_population = 69000
+t = 1
 full_zombie = False
-while !full_zombie:
-    print (z(t))
+while full_zombie == False:
+    if z(t) >= missoula_population:
+        print ("days: ", t, " Pop: ", z(t), " Prev: ", z(t-1))
+        full_zombie = True
+    t += 1
 
-
-print("g: 10, 3 ", g(10,3))
-
-
-numFib = 20
 
 # Fibonacci characteristic matrix:
-A=numpy.matrix([[1,1],[1,0]])
+A=numpy.matrix([[1,1,1],[1,1,0],[1,0,0]])
 
 # Eigenvalues
-lambda1, lambda2 = numpy.linalg.eigvals(A)
+lambda1, lambda2, lambda3 = numpy.linalg.eigvals(A)
 # Solve for coefficeints d1,d2:
 # z(t) = d1*lambda1**(t-1) + d2*lambda2**(t-1):
 # <--> M*[[d1],[d2]] = [1,1]
-M=numpy.matrix([[lambda1**-1,lambda2**-1],[lambda1**0,lambda2**0]])
-d = numpy.linalg.solve(M, [[1],[1]])
-d1,d2 = d.T[0]
+M=numpy.matrix([[lambda1**-1,lambda2**-1,lambda3**-1],
+                [lambda1**0,lambda2**0,lambda3**0],
+                [lambda1**1,lambda2**1,lambda3**1]])
+d = numpy.linalg.solve(M, [[1],[1],[1]])
+d1,d2,d3 = d.T[0]
 
-def z(t):
+print(d1, " ")
+
+
+def zz(t):
     return d1*lambda1**(t-1) + d2*lambda2**(t-1)
 
 for t in range(10):
-    print (z(t))
+    print (zz(t))
