@@ -16,7 +16,7 @@ def probability_of_comparison(x,x_sort,i,j):
     ans = 2.0/(abs(r_j-r_i)+1)
     return ans
 
-print("prob of compariston: " ,probability_of_comparison(x,x_sort,i,j))
+print("prob of compariston: " , probability_of_comparison(x,x_sort,i,j))
 
 #3 2
 def total_expected_comparisons(x,x_sort):
@@ -30,7 +30,6 @@ def total_expected_comparisons(x,x_sort):
     return prob
 
 print("expected total executions ", total_expected_comparisons(x,x_sort))
-
 
 
 #4.
