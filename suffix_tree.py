@@ -62,3 +62,34 @@ class Node:
             result = self.parent().label()
             result += self.parent_edge.string
         return result
+
+
+class Location:
+    def __init__(self, node, edge=None, edge_offset=None):
+        self.node = node
+        # either the edge and edge_offset are both None (the location is# at a node) or both are not None (the location is on an edge):
+        assert( edge == None and edge_offset == None or edge != None andedge_offset != None)
+        self.edge = edge
+        self.edge_offset = edge_offset
+    def on_node(self):
+        return self.edge == None
+
+    def on_edge(self):
+        return not self.on_node()
+    def create_node_here_if_necessary_and_return(self):
+        if self.on_node():
+            return self.node
+            # on an edge; split the edge and add a new internal node
+        e_a, e_b = self.edge.split(self.edge_offset)
+        return e_a.dest
+
+    def insert_suffix_here_and_return_node(self, suffix_tail):
+        node = self.create_node_here_if_necessary_and_return()
+        edge = Edge(suffix_tail)
+        leaf = Node(parent_edge=edge, character_depth=node.character_depth +len(suffix_tail))
+        edge.dest = leafnode.set_edge_by_leading_character(edge)
+        return node
+    def character_depth(self):
+        if self.on_node():
+            return self.node.character_depth
+        return self.node.character_depth + self.edge_offsetdef label(self):result = self.node.label()if self.on_edge():result += self.edge.string[:self.edge_offset]
